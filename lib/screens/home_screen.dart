@@ -35,30 +35,46 @@ class HomeScreen extends StatelessWidget {
                 return const Center(child: Text('No users found.'));
               }
 
-              return ListView(
-                children: snapshot.data!.docs.map((doc) {
-                  var data = doc.data() as Map<String, dynamic>;
+              return Column(
+                children: [
+                  Expanded(
+                    child: ListView(
+                      children: snapshot.data!.docs.map((doc) {
+                        var data = doc.data() as Map<String, dynamic>;
 
-                  return ListTile(
-                    leading: CircleAvatar(
-                      backgroundImage:
-                      (data['profileUrl'] != null && data['profileUrl'].toString().isNotEmpty)
-                          ? NetworkImage(data['profileUrl'])
-                          : null,
-                      child: (data['profileUrl'] == null || data['profileUrl'].toString().isEmpty)
-                          ? const Icon(Icons.person)
-                          : null,
+                        return ListTile(
+                          leading: CircleAvatar(
+                            backgroundImage:
+                            (data['profileUrl'] != null && data['profileUrl'].toString().isNotEmpty)
+                                ? NetworkImage(data['profileUrl'])
+                                : null,
+                            child: (data['profileUrl'] == null || data['profileUrl'].toString().isEmpty)
+                                ? const Icon(Icons.person)
+                                : null,
+                          ),
+                          title: Text(data['name'] ?? 'No Name'),
+                        );
+                      }).toList(),
                     ),
-                    title: Text(data['name'] ?? 'No Name'),
-                  );
-                }).toList(),
+                  ),
+                ],
               );
             },
           );
         },
       ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.all(8.0),
+      bottomNavigationBar: Container(
+        padding: const EdgeInsets.all(16.0),
+        decoration: BoxDecoration(
+          color: Theme.of(context).scaffoldBackgroundColor,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.1),
+              blurRadius: 4,
+              offset: const Offset(0, -2),
+            ),
+          ],
+        ),
         child: ElevatedButton(
           onPressed: () async {
             await auth.logout();
