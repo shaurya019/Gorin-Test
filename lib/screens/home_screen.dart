@@ -11,7 +11,7 @@ class HomeScreen extends StatelessWidget {
     final auth = Provider.of<AuthProvider>(context, listen: false);
 
     return Scaffold(
-      appBar: AppBar(title: const Text("Home")),
+      appBar: AppBar(title: const Text("Users")),
       body: Consumer<AuthProvider>(
         builder: (context, auth, _) {
           if (auth.user == null) {
