@@ -14,15 +14,20 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-
   bool _isLoading = false;
+  bool _obscurePassword = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _obscurePassword = true;
+  }
 
   @override
   Widget build(BuildContext context) {
     final auth = Provider.of<AuthProvider>(context);
 
     return Scaffold(
-      appBar: AppBar(title: const Text("Login with Email")),
       body: LayoutBuilder(
         builder: (context, constraints) {
           return SingleChildScrollView(
@@ -33,12 +38,21 @@ class _LoginScreenState extends State<LoginScreen> {
                   padding: const EdgeInsets.all(16),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Form(
                         key: _formKey,
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        autovalidateMode: AutovalidateMode.disabled,
                         child: Column(
                           children: [
+                            const Text(
+                              "Login with Email",
+                              style: TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(height: 24),
                             TextFormField(
                               controller: emailController,
                               keyboardType: TextInputType.emailAddress,
@@ -55,10 +69,20 @@ class _LoginScreenState extends State<LoginScreen> {
                             const SizedBox(height: 16),
                             TextFormField(
                               controller: passwordController,
-                              obscureText: true,
-                              decoration: const InputDecoration(
+                              obscureText: _obscurePassword,
+                              decoration: InputDecoration(
                                 labelText: 'Password',
-                                border: OutlineInputBorder(),
+                                border: const OutlineInputBorder(),
+                                suffixIcon: IconButton(
+                                  icon: Icon(
+                                    _obscurePassword ? Icons.visibility : Icons.visibility_off,
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      _obscurePassword = !_obscurePassword;
+                                    });
+                                  },
+                                ),
                               ),
                               validator: (value) {
                                 if (value == null || value.isEmpty) return 'Please enter your password';
@@ -68,7 +92,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                             const SizedBox(height: 24),
                             SizedBox(
-                              width: double.infinity,
+                              width: 100,
                               child: ElevatedButton(
                                 onPressed: _isLoading
                                     ? null
@@ -86,6 +110,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                       );
                                     }
                                     setState(() => _isLoading = false);
+                                  } else {
+                                    setState(() {}); // Trigger rebuild to show validation errors
                                   }
                                 },
                                 child: _isLoading
@@ -94,6 +120,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                             ),
                             const SizedBox(height: 12),
+                            const Text("Don't have an account?"),
                             TextButton(
                               onPressed: () {
                                 Navigator.push(
@@ -101,12 +128,17 @@ class _LoginScreenState extends State<LoginScreen> {
                                   MaterialPageRoute(builder: (_) => const RegisterScreen()),
                                 );
                               },
-                              child: const Text("Don't have an account? Register"),
+                              child: const Text(
+                                "Signup",
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
                             ),
                           ],
                         ),
                       ),
-                      const Spacer(), // pushes form content to vertical center
                     ],
                   ),
                 ),
