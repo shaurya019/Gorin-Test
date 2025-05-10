@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1000840187981",
+    "project_id": "gorin-flutter-project",
+    "storage_bucket": "gorin-flutter-project.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1000840187981:android:c3b2558dc8ef40a5bd0c04",
+        "android_client_info": {
+          "package_name": "com.example.gorin_flutter_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDaiscjQEvkWjXqPvlEPCEf5hWDqW79Uwo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
